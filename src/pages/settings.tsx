@@ -17,15 +17,25 @@ function Settings() {
     setTeams([...teams, newTeam]);
   };
 
-  const toggleTeamPermission = (permissionId: number) => {
-    const newTeamPermissionsCopy = [...newTeam.permissions];
-    if (newTeamPermissionsCopy.includes(permissionId)) {
-      newTeamPermissionsCopy.splice(indexOfPermission, 1);
+  const toggleTeamPermission = (permissionId: number, teamId: number) => {
+    const teamsCopy = [...teams];
+    const teamIndex = teamsCopy.findIndex((team) => {
+      return team.id === teamId;
+    });
+
+    if (teamsCopy[teamIndex].permissions.includes(permissionId)) {
+      const indexOfPermission = teamsCopy[teamIndex].permissions.findIndex((permission) => {
+        return permission === permissionId;
+      });
+      teamsCopy[teamIndex].permissions.splice(indexOfPermission, 1);
     } else {
-      newTeamPermissionsCopy.push(permissionId);
+      teamsCopy[teamIndex].permissions.push(permissionId);
     }
 
-    setNewTeam({ ...newTeam, permissions: newTeamPermissionsCopy });
+    console.log(teamsCopy[teamIndex].permissions);
+
+    teamsCopy[teamIndex] = { ...newTeam, permissions: teamsCopy[teamIndex].permissions };
+    setTeams(teamsCopy);
   };
 
   const permissionTypes = [
@@ -59,31 +69,27 @@ function Settings() {
               <li>
                 <h3>{team.name}</h3>
                 <div style={{ display: 'flex' }}>
-                  {permissionTypes?.map((permissionType) => {
-                    return (
-                      <ul
-                        key={permissionType.type}
-                        style={{ listStyle: 'none' }}
-                      >
-                        <h3>{permissionType.type}</h3>
-                        {menues.map((menu: any) => {
-                          return (
-                            <li key={menu.id}>
-                              <button
-                                onClick={() => {
-                                  return toggleTeamPermission(
-                                    menu.id,
-                                  );
-                                }}
-                              >
-                                {permissionType.display}
-                              </button>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    );
-                  })}
+                  <ul style={{ listStyle: 'none' }}>
+                    <h3>PAGE</h3>
+                    {menues.map((menu: any) => {
+                      return (
+                        <li key={menu.id}>
+                          <button
+                            onClick={() => {
+                              return toggleTeamPermission(
+                                menu.id,
+                                team.id,
+                              );
+                            }}
+                          >
+                            {team.permissions.includes(menu.id)
+                              ? 'hi'
+                              : ''}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </li>
             );
