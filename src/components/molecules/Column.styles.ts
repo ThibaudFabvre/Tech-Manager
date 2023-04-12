@@ -1,0 +1,43 @@
+export const styles = {
+  columnContainer: {
+    width: 240,
+    marginLeft: 18,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 5,
+    height: 480,
+    boxShadow: '0px 1px 10px 1px #ccc',
+  },
+  titleContainer: {
+    borderRadius: 5,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+    backgroundColor: '#fff',
+  },
+  columnTitle: {},
+  input: {
+    boxShadow: 'none',
+    border: '1px solid grey',
+    borderRadius: 5,
+    outline: 'none',
+  },
+  moreOptionsButton: {
+    width: 20,
+    height: 20,
+    marginRight: 12,
+    border: 'none',
+    borderRadius: 5,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  cardContainer: {
+    padding: 12,
+    marginTop: 12,
+    borderRadius: 5,
+    height: 480,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+  },
+};
