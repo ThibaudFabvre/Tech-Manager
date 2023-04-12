@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { Button } from '../components/atoms/Button/Button';
 import useTeamsStore from '../skyrave-core/stores/teams/teams';
-import usePermissionsStore from '../skyrave-core/stores/permissions/permissions';
+import menues from '../common/routes';
 
 function Settings() {
-  const permissions = usePermissionsStore((state) => {
-    return state.permissions;
-  });
   const teams = useTeamsStore((state) => {
     return state.teams;
   });
@@ -14,25 +11,29 @@ function Settings() {
     return state.setTeams;
   });
 
-  const [newTeam, setNewTeam] = useState({ name: '', permissions: [...permissions] });
+  const [newTeam, setNewTeam] = useState({ name: '', permissions: [] });
 
   const addTeam = () => {
     setTeams([...teams, newTeam]);
   };
 
-  const toggleTeamPermission = (id: number) => {
+  const toggleTeamPermission = (permissionId: number) => {
     const newTeamPermissionsCopy = [...newTeam.permissions];
-    const indexOfPermission = newTeamPermissionsCopy.findIndex((permission) => {
-      return permission.id === id;
-    });
-    newTeamPermissionsCopy[indexOfPermission].isGranted = !newTeamPermissionsCopy[indexOfPermission].isGranted;
+    if (newTeamPermissionsCopy.includes(permissionId)) {
+      newTeamPermissionsCopy.splice(indexOfPermission, 1);
+    } else {
+      newTeamPermissionsCopy.push(permissionId);
+    }
 
     setNewTeam({ ...newTeam, permissions: newTeamPermissionsCopy });
   };
 
-  const permissionTypes = permissions.reduce((prev, permission) => {
-    return !prev.includes(permission.type) ? [...prev, permission.type] : prev;
-  }, []);
+  const permissionTypes = [
+    { type: 'page', display: <div>Page</div> },
+    { type: 'tool', display: <div>Tool</div> },
+    { type: 'documentation', display: <div>Documentation</div> },
+    { type: 'functionality', display: <div>Functionality</div> },
+  ];
 
   return (
     <div>
@@ -57,33 +58,33 @@ function Settings() {
             return (
               <li>
                 <h3>{team.name}</h3>
-                <ul style={{ display: 'flex' }}>
-                  {permissionTypes?.map((type: string) => {
+                <div style={{ display: 'flex' }}>
+                  {permissionTypes?.map((permissionType) => {
                     return (
-                      <ul key={type} style={{ listStyle: 'none' }}>
-                        <h3>{type}</h3>
-                        {team.permissions.map((permission: any) => {
-                          if (permission.type === type) {
-                            return (
-                              <li key={permission.id}>
-                                <input
-                                  type="checkbox"
-                                  value={permission.isGranted}
-                                  onChange={() => {
-                                    return toggleTeamPermission(
-                                      permission.id,
-                                    );
-                                  }}
-                                />
-                                <label>{permission.title}</label>
-                              </li>
-                            );
-                          }
+                      <ul
+                        key={permissionType.type}
+                        style={{ listStyle: 'none' }}
+                      >
+                        <h3>{permissionType.type}</h3>
+                        {menues.map((menu: any) => {
+                          return (
+                            <li key={menu.id}>
+                              <button
+                                onClick={() => {
+                                  return toggleTeamPermission(
+                                    menu.id,
+                                  );
+                                }}
+                              >
+                                {permissionType.display}
+                              </button>
+                            </li>
+                          );
                         })}
                       </ul>
                     );
                   })}
-                </ul>
+                </div>
               </li>
             );
           })}
