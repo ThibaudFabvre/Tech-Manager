@@ -1,23 +1,27 @@
-
 export const styles = {
-    cardContainer: {
-        backgroundColor: 'white',
-        borderRadius: 5,
-        height: 60,
-        paddingLeft: 12,
-        paddingRight: 12, 
-    },
-    cardTitle: {
-        marginTop: 12,
-    },
-    moreOptionsButton: {
-        border: 'none',
-        borderRadius: 5,
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        position: 'relative',
-        width: 20,
-        height: 20,
-    }
-}
+  cardContainer: {
+    display: 'flex',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    overflow: 'hidden',
+    boxShadow: '0px 1px 5px 1px #ccc',
+    textOverflow: 'ellipsis',
+    height: 62,
+    width: 210,
+  },
+  cardType: {
+    borderRadius: 5,
+    backgroundColor: 'red',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 62,
+    width: 36,
+  },
+  cardTitle: {
+    width: '100%',
+    padding: 8,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+};

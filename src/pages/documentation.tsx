@@ -19,22 +19,22 @@ const styles = {
 // ];
 
 function Documentation() {
-  const currentMenu = useMenusStore((state) => {
-    return state.currentMenu;
+  const selectedMenus = useMenusStore((state) => {
+    return state.selectedMenus;
   });
-  const setCurrentMenu = useMenusStore((state) => {
-    return state.setCurrentMenu;
+  const setSelectedMenus = useMenusStore((state) => {
+    return state.setSelectedMenus;
   });
 
   const changeMenu = (menuName: string) => {
-    if (currentMenu.name !== menuName && currentMenu.isOpened) {
-      setCurrentMenu({ ...currentMenu, name: menuName });
-    } else if (currentMenu.name !== menuName && !currentMenu.isOpened) {
-      setCurrentMenu({ name: menuName, isOpened: true });
-    } else if (currentMenu.name === menuName && !currentMenu.isOpened) {
-      setCurrentMenu({ name: menuName, isOpened: true });
+    if (selectedMenus.name !== menuName && selectedMenus.isOpened) {
+      setSelectedMenus({ ...selectedMenus, name: menuName });
+    } else if (selectedMenus.name !== menuName && !selectedMenus.isOpened) {
+      setSelectedMenus({ name: menuName, isOpened: true });
+    } else if (selectedMenus.name === menuName && !selectedMenus.isOpened) {
+      setSelectedMenus({ name: menuName, isOpened: true });
     } else {
-      setCurrentMenu({ ...currentMenu, isOpened: false });
+      setSelectedMenus({ ...selectedMenus, isOpened: false });
     }
   };
 

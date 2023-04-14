@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
 import { Button } from '../components/atoms/Button/Button';
 import useTeamsStore from '../skyrave-core/stores/teams/teams';
 import menues from '../common/routes';
 
 function Settings() {
+  const router = useRouter();
   const teams = useTeamsStore((state) => {
     return state.teams;
   });
@@ -11,7 +14,7 @@ function Settings() {
     return state.setTeams;
   });
 
-  const [newTeam, setNewTeam] = useState({ name: '', permissions: [] });
+  const [newTeam, setNewTeam] = useState({ id: uuidv4(), name: '', permissions: [] });
 
   const addTeam = () => {
     setTeams([...teams, newTeam]);
@@ -32,18 +35,12 @@ function Settings() {
       teamsCopy[teamIndex].permissions.push(permissionId);
     }
 
-    console.log(teamsCopy[teamIndex].permissions);
-
-    teamsCopy[teamIndex] = { ...newTeam, permissions: teamsCopy[teamIndex].permissions };
+    teamsCopy[teamIndex] = {
+      ...teamsCopy[teamIndex],
+      permissions: teamsCopy[teamIndex].permissions,
+    };
     setTeams(teamsCopy);
   };
-
-  const permissionTypes = [
-    { type: 'page', display: <div>Page</div> },
-    { type: 'tool', display: <div>Tool</div> },
-    { type: 'documentation', display: <div>Documentation</div> },
-    { type: 'functionality', display: <div>Functionality</div> },
-  ];
 
   return (
     <div>
@@ -75,6 +72,7 @@ function Settings() {
                       return (
                         <li key={menu.id}>
                           <button
+                            style={{ width: 180 }}
                             onClick={() => {
                               return toggleTeamPermission(
                                 menu.id,
@@ -82,15 +80,20 @@ function Settings() {
                               );
                             }}
                           >
-                            {team.permissions.includes(menu.id)
-                              ? 'hi'
-                              : ''}
+                            {menu.pageName}
                           </button>
                         </li>
                       );
                     })}
                   </ul>
                 </div>
+                <button
+                  onClick={() => {
+                    return router.push('/settings/manage-task-types');
+                  }}
+                >
+                  Manage Tasks Types
+                </button>
               </li>
             );
           })}

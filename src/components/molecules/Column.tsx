@@ -8,7 +8,7 @@ export type ColumnProps = {
   name: string
   isTitleEditable?: boolean
   onTitleEditionBlur?: (id: string, data: any) => void
-  children: string | JSX.Element | JSX.Element[]
+  children: React.ReactNode
 }
 
 export const Column: React.FC<ColumnProps> = ({
@@ -29,7 +29,7 @@ export const Column: React.FC<ColumnProps> = ({
         }}
       >
         {!isEditMode || !isTitleEditable ? (
-          <h5 style={styles.columnTitle}>{name.toUpperCase()}</h5>
+          <h5 style={styles.columnTitle}>{name}</h5>
         ) : (
           <input
             style={styles.input}

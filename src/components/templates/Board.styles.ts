@@ -1,5 +1,6 @@
 export const styles = {
   board: {
+    textAlign: 'center',
     marginTop: '18px',
     marginLeft: '18px',
     padding: '10px',

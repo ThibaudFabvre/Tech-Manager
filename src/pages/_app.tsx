@@ -8,11 +8,7 @@ import { validateHTML } from '../skyrave-core/utils/validators';
 import useMenusStore from '../skyrave-core/stores/menus/menus';
 import { Button } from '../components/atoms/Button/Button';
 import menues from '../common/routes';
-
-const rgbToHex = (r: any, g: any, b: any) => {
-  const hex = ((r << 16) | (g << 8) | b).toString(16);
-  return `#${hex.padStart(6, '0')}`;
-};
+import { getColorFromGradient } from '../skyrave-core/utils/colors';
 
 const gradient = [
   'rgb(255, 0, 0)',
@@ -25,34 +21,23 @@ const gradient = [
   'rgb(255, 192, 203)',
 ];
 
-const getColorFromGradient = (gradient: Array<string>, percentage: number) => {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (ctx) {
-    const gradientObj = ctx.createLinearGradient(0, 0, 100, 0); // 100 is the width of the gradient
-    gradient.forEach((color, index) => {
-      const stop = index / (gradient.length - 1);
-      gradientObj.addColorStop(stop, color);
-    });
-    ctx.fillStyle = gradientObj;
-    ctx.fillRect(0, 0, 100, 1); // 100 is the width of the gradient
-    const steps = 100;
-    const colorIndex = Math.round((steps - 1) * (percentage / 100));
-    const { data } = ctx.getImageData(colorIndex, 0, 1, 1);
-    const hex = rgbToHex(data[0], data[1], data[2]);
-    return hex;
-  }
-};
-
 const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) => {
-  const currentMenu = useMenusStore((state) => {
-    return state.currentMenu;
+  const selectedMenus = useMenusStore((state) => {
+    return state.selectedMenus;
   });
   const [selectedColor, setSelectedColor] = useState('#FB9E00');
-  const [opacity, setOpacity] = useState(0);
+  const [opacity, setOpacity] = useState(100);
   const [htmlCode, setHTMLCode] = useState('');
+  const router = useRouter();
 
-  const route = useRouter();
+  const setSelectedMenus = useMenusStore((state) => {
+    return state.setSelectedMenus;
+  });
+
+  const closeMenu = () => {
+    setSelectedMenus({ ...selectedMenus, isOpened: false });
+  };
+
   const calculateNewOpacity = (data: any) => {
     setOpacity(data.percentage / 100);
   };
@@ -72,7 +57,7 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
     <div style={{ width: '100vw' }}>
       <aside
         style={{
-          ...(!currentMenu.isOpened
+          ...(!selectedMenus.isOpened
             ? { transform: 'translate(320px ,0)' }
             : { transform: 'translate(0 ,0)' }),
           transitionDuration: '200ms',
@@ -92,7 +77,7 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
           paddingBottom: 24,
         }}
       >
-        {currentMenu.name === 'STYLES' ? (
+        {selectedMenus.name === 'STYLES' ? (
           <>
             <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
               Element Color
@@ -165,7 +150,8 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
                     cursor: 'pointer',
                   }}
                   onClick={() => {
-                    return route.push(menu.path);
+                    closeMenu();
+                    return router.push(menu.path);
                   }}
                 >
                   <span style={{ marginLeft: 12 }}>{menu.icon}</span>
@@ -176,7 +162,13 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
           </ul>
         </aside>
         <div style={{ width: 'calc(100vw - 240px)' }}>
-          <Component {...pageProps} />
+          <Component
+            {...pageProps}
+            selectedColor={selectedColor}
+            setSelectedColor={selectedColor}
+            opacity={opacity}
+            setOpacity={setOpacity}
+          />
         </div>
       </div>
     </div>

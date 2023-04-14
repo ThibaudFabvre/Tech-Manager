@@ -1,7 +1,6 @@
 export const styles = {
   columnContainer: {
     width: 240,
-    marginLeft: 18,
     backgroundColor: '#f2f2f2',
     borderRadius: 5,
     height: 480,
@@ -14,6 +13,7 @@ export const styles = {
     alignItems: 'center',
     height: 40,
     backgroundColor: '#fff',
+    boxShadow: '0px 1px 3px 1px #ccc',
   },
   columnTitle: {},
   input: {
@@ -38,6 +38,7 @@ export const styles = {
     height: 480,
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     gap: 12,
   },
 };

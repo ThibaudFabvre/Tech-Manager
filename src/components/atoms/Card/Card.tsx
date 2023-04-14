@@ -1,25 +1,18 @@
-import { styles } from "./Card.styles";
+import { styles } from './Card.styles';
 
 export type CardProps = {
-  id: string;
-  text?: string;
-  status?: string;
+  text?: string
+  status?: string
+  color: string
+  children?: React.ReactNode
+  title?: string
 }
 
-export const Card  = ({ id, text, status}: CardProps) => {
-
+export function Card({ color, title = '', children }: CardProps) {
   return (
-    <div
-      style={styles.cardContainer}
-    >
-      <h6 style={styles.cardTitle}>{'hihihihihihihihihihihihihihihihihihihihihihihihihihihihihihi'}</h6>
-      <button style={{
-        border: 'none',
-        borderRadius: 5,
-        backgroundColor: 'white',
-        float: 'right',        
-    }}>...</button>
+    <div style={styles.cardContainer}>
+      <div style={{ ...styles.cardType, backgroundColor: color }}>{children}</div>
+      <h6 style={styles.cardTitle}>{title}</h6>
     </div>
   );
 }
-
