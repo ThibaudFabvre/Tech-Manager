@@ -2,10 +2,9 @@ import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 import { BsBug } from 'react-icons/bs';
-import { Board } from '../components/templates/Board';
-
-import { Card, CardProps } from '../components/atoms/Card/Card';
-import { Column } from '../components/molecules/Column';
+import {
+  Card, CardProps, Column, Board,
+} from '../skyrave-core/components';
 import useTeamsStore from '../skyrave-core/stores/teams/teams';
 
 const cards: CardProps[] = [

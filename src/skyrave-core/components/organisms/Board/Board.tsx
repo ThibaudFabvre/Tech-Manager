@@ -6,7 +6,7 @@ type BoardProps = {
   children: string | JSX.Element | JSX.Element[]
 }
 
-export const Board: React.FC<BoardProps> = ({ name, children }) => {
+const Board: React.FC<BoardProps> = ({ name, children }) => {
   return (
     <div style={styles.board as CSSProperties}>
       <h3>{name}</h3>
@@ -14,3 +14,5 @@ export const Board: React.FC<BoardProps> = ({ name, children }) => {
     </div>
   );
 };
+
+export default Board;

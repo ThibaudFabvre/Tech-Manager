@@ -8,7 +8,7 @@ export type CardProps = {
   title?: string
 }
 
-export function Card({ color, title = '', children }: CardProps) {
+function Card({ color, title = '', children }: CardProps) {
   return (
     <div style={styles.cardContainer}>
       <div style={{ ...styles.cardType, backgroundColor: color }}>{children}</div>
@@ -16,3 +16,5 @@ export function Card({ color, title = '', children }: CardProps) {
     </div>
   );
 }
+
+export default Card;

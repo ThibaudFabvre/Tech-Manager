@@ -11,7 +11,7 @@ export type ColumnProps = {
   children: React.ReactNode
 }
 
-export const Column: React.FC<ColumnProps> = ({
+const Column: React.FC<ColumnProps> = ({
   id,
   name,
   isTitleEditable = true,
@@ -46,3 +46,5 @@ export const Column: React.FC<ColumnProps> = ({
     </div>
   );
 };
+
+export default Column;

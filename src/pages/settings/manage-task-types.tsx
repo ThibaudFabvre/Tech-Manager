@@ -1,75 +1,89 @@
-import { useState } from 'react';
-import { BiChevronRight } from 'react-icons/bi';
+import { cloneElement, useState } from 'react';
 import { BsBug } from 'react-icons/bs';
 import useMenusStore from '../../skyrave-core/stores/menus/menus';
-import { Card } from '../../components/atoms/Card/Card';
-
-function DropDownSection({ title, onClick }) {
-  return (
-    <button
-      style={{
-        border: '1px solid #ccc',
-        borderRadius: 5,
-        marginTop: 8,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        width: '100%',
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 16,
-        paddingRight: 16,
-      }}
-      onClick={onClick}
-    >
-      {title}
-      <button
-        style={{
-          height: 32,
-          width: 32,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#fff',
-          border: '1px solid #ccc',
-          borderRadius: '50%',
-          cursor: 'pointer',
-        }}
-      >
-        <BiChevronRight />
-        {' '}
-      </button>
-    </button>
-  );
-}
+import {
+  Card, ColorPicker, CursoredBar, IconPicker, Input,
+} from '../../skyrave-core/components';
+import { getColorFromGradient, gradientArray } from '../../skyrave-core/utils/colors';
+import { arrayToString } from '../../skyrave-core/utils/typeConverters';
+import DropDownSection from '../../skyrave-core/components/organisms/DropDownSection/DropDownSection';
 
 const ticketSections = [
   { name: 'Title' },
   { name: 'Assignee' },
-  { name: 'Complexity' },
+  { name: 'Priority' },
   { name: 'Steps' },
 ];
 
-function ManageTaskTypes({ selectedColor, opacity }) {
-  const selectedMenus = useMenusStore((state) => {
-    return state.selectedMenus;
-  });
+function ManageTaskTypes() {
   const setSelectedMenus = useMenusStore((state) => {
     return state.setSelectedMenus;
   });
+  const setIsMenuOpen = useMenusStore((state) => {
+    return state.setIsMenuOpen;
+  });
 
-  const [selectedIcon, setSelectedIcon] = useState(<BsBug size={18} color="#fff" />);
+  const [selectedIconColor, setSelectedIconColor] = useState('#fff');
+  const [selectedIcon, setSelectedIcon] = useState(() => {
+    return <BsBug size={18} />;
+  });
+  const [ticketColor, setTicketColor] = useState('#ccc');
 
-  const changeMenu = (menuName: string) => {
-    if (selectedMenus.name !== menuName && selectedMenus.isOpened) {
-      setSelectedMenus({ ...selectedMenus, name: menuName });
-    } else if (selectedMenus.name !== menuName && !selectedMenus.isOpened) {
-      setSelectedMenus({ name: menuName, isOpened: true });
-    } else if (selectedMenus.name === menuName && !selectedMenus.isOpened) {
-      setSelectedMenus({ name: menuName, isOpened: true });
+  const changeMenu = (target: string) => {
+    setIsMenuOpen(true);
+    if (target === 'icon') {
+      setSelectedMenus([
+        <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
+          Select the icon color
+        </h5>,
+        <Input
+          type="text"
+          placeholder="Color Code"
+          value={selectedIconColor}
+          onChange={setSelectedIconColor}
+        />,
+        <ColorPicker onColorSelect={setSelectedIconColor} />,
+        <CursoredBar
+          value={selectedIconColor}
+          onChange={(data: any) => {
+            const hex = getColorFromGradient(gradientArray, data.percentage);
+            if (hex) {
+              setSelectedIconColor(hex);
+            }
+          }}
+          spectre={`linear-gradient(to right, ${arrayToString(gradientArray)})`}
+          gradient={arrayToString(gradientArray)}
+        />,
+        <IconPicker
+          onIconPick={(icon: any) => {
+            setSelectedIcon(cloneElement(icon, { size: 18 }));
+          }}
+        />,
+      ]);
     } else {
-      setSelectedMenus({ ...selectedMenus, isOpened: false });
+      setSelectedMenus([
+        <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
+          Select the icon color
+        </h5>,
+        <Input
+          type="text"
+          placeholder="Color Code"
+          value={ticketColor}
+          onChange={setTicketColor}
+        />,
+        <ColorPicker onColorSelect={setTicketColor} />,
+        <CursoredBar
+          value={ticketColor}
+          onChange={(data: any) => {
+            const hex = getColorFromGradient(gradientArray, data.percentage);
+            if (hex) {
+              setTicketColor(hex);
+            }
+          }}
+          spectre={`linear-gradient(to right, ${arrayToString(gradientArray)})`}
+          gradient={arrayToString(gradientArray)}
+        />,
+      ]);
     }
   };
 
@@ -85,10 +99,13 @@ function ManageTaskTypes({ selectedColor, opacity }) {
           <h5>Preview</h5>
           <div>
             <Card
-              color={selectedColor}
+              color={ticketColor}
               title="Test ticket text, testing testing testing ... testing again and again"
             >
-              {selectedIcon}
+              {cloneElement(selectedIcon, {
+                color: selectedIconColor,
+                backgroundColor: selectedIconColor,
+              })}
             </Card>
           </div>
         </div>
@@ -103,17 +120,15 @@ function ManageTaskTypes({ selectedColor, opacity }) {
           >
             <h3>BUG</h3>
             <button
-              style={{ opacity }}
               onClick={() => {
-                return changeMenu('STYLES');
+                return changeMenu('ticket');
               }}
             >
               Ticket Color
             </button>
             <button
-              style={{ opacity }}
               onClick={() => {
-                return changeMenu('STYLES');
+                return changeMenu('icon');
               }}
             >
               Icon
@@ -129,7 +144,9 @@ function ManageTaskTypes({ selectedColor, opacity }) {
                 onClick={() => {
                   return null;
                 }}
-              />
+              >
+                <div />
+              </DropDownSection>
             );
           })}
         </div>

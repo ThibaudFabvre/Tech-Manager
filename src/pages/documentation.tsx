@@ -1,5 +1,4 @@
-import { Button } from '../components/atoms/Button/Button';
-import ProgressBar from '../components/atoms/ProgressBar/ProgressBar';
+import { Button } from '../skyrave-core/components';
 import useMenusStore from '../skyrave-core/stores/menus/menus';
 
 const styles = {
@@ -27,15 +26,15 @@ function Documentation() {
   });
 
   const changeMenu = (menuName: string) => {
-    if (selectedMenus.name !== menuName && selectedMenus.isOpened) {
-      setSelectedMenus({ ...selectedMenus, name: menuName });
-    } else if (selectedMenus.name !== menuName && !selectedMenus.isOpened) {
-      setSelectedMenus({ name: menuName, isOpened: true });
-    } else if (selectedMenus.name === menuName && !selectedMenus.isOpened) {
-      setSelectedMenus({ name: menuName, isOpened: true });
-    } else {
-      setSelectedMenus({ ...selectedMenus, isOpened: false });
-    }
+    // if (selectedMenus.name !== menuName && selectedMenus.isOpened) {
+    //   setSelectedMenus({ ...selectedMenus, name: menuName });
+    // } else if (selectedMenus.name !== menuName && !selectedMenus.isOpened) {
+    //   setSelectedMenus({ name: menuName, isOpened: true });
+    // } else if (selectedMenus.name === menuName && !selectedMenus.isOpened) {
+    //   setSelectedMenus({ name: menuName, isOpened: true });
+    // } else {
+    //   setSelectedMenus({ ...selectedMenus, isOpened: false });
+    // }
   };
 
   return (

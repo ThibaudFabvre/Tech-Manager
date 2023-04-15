@@ -1,33 +1,21 @@
 import { FC, useState } from 'react';
 import './index.css';
 import { useRouter } from 'next/router';
-import ColorPicker from '../components/organism/ColorPicker/ColorPicker';
-import CursoredBar from '../components/atoms/CursoredBar/CursoredBar';
-import { Input } from '../components/molecules/Input/Input';
-import { validateHTML } from '../skyrave-core/utils/validators';
 import useMenusStore from '../skyrave-core/stores/menus/menus';
-import { Button } from '../components/atoms/Button/Button';
 import menues from '../common/routes';
-import { getColorFromGradient } from '../skyrave-core/utils/colors';
-
-const gradient = [
-  'rgb(255, 0, 0)',
-  'rgb(255, 127, 0)',
-  'rgb(255, 255, 0)',
-  'rgb(0, 255, 0)',
-  'rgb(0, 0, 255)',
-  'rgb(75, 0, 130)',
-  'rgb(148, 0, 211)',
-  'rgb(255, 192, 203)',
-];
 
 const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) => {
   const selectedMenus = useMenusStore((state) => {
     return state.selectedMenus;
   });
-  const [selectedColor, setSelectedColor] = useState('#FB9E00');
-  const [opacity, setOpacity] = useState(100);
-  const [htmlCode, setHTMLCode] = useState('');
+  const isMenuOpened = useMenusStore((state) => {
+    return state.isMenuOpen;
+  });
+
+  const setIsMenuOpen = useMenusStore((state) => {
+    return state.setIsMenuOpen;
+  });
+
   const router = useRouter();
 
   const setSelectedMenus = useMenusStore((state) => {
@@ -35,29 +23,14 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
   });
 
   const closeMenu = () => {
-    setSelectedMenus({ ...selectedMenus, isOpened: false });
+    setIsMenuOpen(false);
   };
-
-  const calculateNewOpacity = (data: any) => {
-    setOpacity(data.percentage / 100);
-  };
-
-  const calculateHexColor = (data: any) => {
-    const hex = getColorFromGradient(gradient, data.percentage);
-    if (hex) {
-      setSelectedColor(hex);
-    }
-  };
-
-  const gradientString = gradient.reduce((prev, curr, index) => {
-    return prev + curr + (index + 1 !== gradient.length ? ',' : '');
-  }, '');
 
   return (
     <div style={{ width: '100vw' }}>
       <aside
         style={{
-          ...(!selectedMenus.isOpened
+          ...(!isMenuOpened
             ? { transform: 'translate(320px ,0)' }
             : { transform: 'translate(0 ,0)' }),
           transitionDuration: '200ms',
@@ -77,56 +50,9 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
           paddingBottom: 24,
         }}
       >
-        {selectedMenus.name === 'STYLES' ? (
-          <>
-            <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
-              Element Color
-            </h5>
-            <Input
-              type="text"
-              placeholder="Color Code"
-              value={selectedColor}
-              onChange={setSelectedColor}
-            />
-            <ColorPicker onColorSelect={setSelectedColor} />
-            <CursoredBar
-              value={selectedColor}
-              onChange={calculateHexColor}
-              spectre={`linear-gradient(to right, ${gradientString})`}
-              gradient={gradientString}
-            />
-            <CursoredBar
-              value={opacity}
-              onChange={calculateNewOpacity}
-              spectre={`linear-gradient(to right, rgba(255, 255, 255, 0), ${selectedColor})`}
-            />
-          </>
-        ) : (
-          <>
-            <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
-              Enter new Element HTML
-            </h5>
-            <textarea
-              style={{ width: '100%', height: 160 }}
-              onChange={(e) => {
-                return setHTMLCode(e.target.value);
-              }}
-              value={htmlCode}
-            />
-            <Button
-              text="Add Component"
-              onClick={() => {
-                const htmlIsValid = htmlCode.length > 0 && validateHTML(htmlCode);
-                if (htmlIsValid) {
-                  const userComponentsContainer = document.getElementById(
-                    'companyComponents',
-                  ) as HTMLElement;
-                  userComponentsContainer.innerHTML += htmlCode;
-                }
-              }}
-            />
-          </>
-        )}
+        {selectedMenus.map((selectedMenu: any) => {
+          return <>{selectedMenu}</>;
+        })}
       </aside>
       <div style={{ display: 'flex' }}>
         <aside
@@ -162,13 +88,7 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
           </ul>
         </aside>
         <div style={{ width: 'calc(100vw - 240px)' }}>
-          <Component
-            {...pageProps}
-            selectedColor={selectedColor}
-            setSelectedColor={selectedColor}
-            opacity={opacity}
-            setOpacity={setOpacity}
-          />
+          <Component {...pageProps} />
         </div>
       </div>
     </div>

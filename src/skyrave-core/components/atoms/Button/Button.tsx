@@ -10,7 +10,7 @@ export type ButtonProps = {
   modal?: React.ReactNode
 }
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'medium',
   onClick,
@@ -41,3 +41,5 @@ export const Button: React.FC<ButtonProps> = ({
     </div>
   );
 };
+
+export default Button

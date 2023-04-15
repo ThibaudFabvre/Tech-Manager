@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 type MenusStore = {
   menus: Array<any>
-  selectedMenus: any
+  selectedMenus: Array<any>
   isMenuOpen: boolean
   setMenus: (menus: any) => void
   setSelectedMenus: (menuName: any) => void
@@ -12,7 +12,7 @@ type MenusStore = {
 const useMenusStore = create<MenusStore>((set) => {
   return {
     menus: [{ name: 'STYLES' }],
-    selectedMenus: { name: 'STYLES', isOpened: false },
+    selectedMenus: [],
     isMenuOpen: false,
     setMenus: (menus) => {
       return set((state) => {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
-import { Button } from '../components/atoms/Button/Button';
 import useTeamsStore from '../skyrave-core/stores/teams/teams';
 import menues from '../common/routes';
+import { Button } from '../skyrave-core/components';
 
 function Settings() {
   const router = useRouter();

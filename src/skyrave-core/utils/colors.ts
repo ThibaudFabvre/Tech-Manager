@@ -21,3 +21,14 @@ export const getColorFromGradient = (gradient: Array<string>, percentage: number
     return hex;
   }
 };
+
+export const gradientArray = [
+  'rgb(255, 0, 0)',
+  'rgb(255, 127, 0)',
+  'rgb(255, 255, 0)',
+  'rgb(0, 255, 0)',
+  'rgb(0, 0, 255)',
+  'rgb(75, 0, 130)',
+  'rgb(148, 0, 211)',
+  'rgb(255, 192, 203)',
+];
