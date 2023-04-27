@@ -27,9 +27,11 @@ function Settings() {
     });
 
     if (teamsCopy[teamIndex].permissions.includes(permissionId)) {
-      const indexOfPermission = teamsCopy[teamIndex].permissions.findIndex((permission) => {
-        return permission === permissionId;
-      });
+      const indexOfPermission = teamsCopy[teamIndex].permissions.findIndex(
+        (permission: any) => {
+          return permission === permissionId;
+        },
+      );
       teamsCopy[teamIndex].permissions.splice(indexOfPermission, 1);
     } else {
       teamsCopy[teamIndex].permissions.push(permissionId);
@@ -61,9 +63,9 @@ function Settings() {
 
       <div>
         <ul>
-          {teams.map((team) => {
+          {teams.map((team, index) => {
             return (
-              <li>
+              <li key={index}>
                 <h3>{team.name}</h3>
                 <div style={{ display: 'flex' }}>
                   <ul style={{ listStyle: 'none' }}>
@@ -93,6 +95,13 @@ function Settings() {
                   }}
                 >
                   Manage Tasks Types
+                </button>
+                <button
+                  onClick={() => {
+                    return router.push('/settings/automated-actions');
+                  }}
+                >
+                  Manage Automated Actions
                 </button>
               </li>
             );

@@ -1,6 +1,4 @@
-import React, {
-  CSSProperties, Ref, createRef, useState,
-} from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { styles } from './Column.styles';
 
 export type ColumnProps = {

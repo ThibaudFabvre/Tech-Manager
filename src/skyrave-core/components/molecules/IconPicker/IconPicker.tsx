@@ -1,3 +1,4 @@
+import { FC, cloneElement } from 'react';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { BiSearchAlt, BiTestTube } from 'react-icons/bi';
 import { HiBugAnt } from 'react-icons/hi2';
@@ -12,9 +13,13 @@ import { MdPersonSearch, MdOutlineSettings, MdAnnouncement } from 'react-icons/m
 import { GiAutoRepair } from 'react-icons/gi';
 import { GoCommentDiscussion } from 'react-icons/go';
 import { FiPhoneCall } from 'react-icons/fi';
-import { cloneElement } from 'react';
 
-function IconPicker({
+type Props = {
+  icons?: Array<any>
+  onIconPick: (icon: any) => void
+}
+
+const IconPicker: FC<Props> = ({
   icons = [
     <BsFillBugFill />,
     <HiBugAnt />,
@@ -33,7 +38,7 @@ function IconPicker({
     <BsFileEarmarkCodeFill />,
   ],
   onIconPick,
-}) {
+}) => {
   return (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       {icons.map((icon) => {
@@ -51,6 +56,6 @@ function IconPicker({
       })}
     </div>
   );
-}
+};
 
 export default IconPicker;

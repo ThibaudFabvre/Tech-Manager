@@ -1,9 +1,10 @@
 import { styles } from './Card.styles';
 
 export type CardProps = {
+  id?: string
   text?: string
   status?: string
-  color: string
+  color?: string
   children?: React.ReactNode
   title?: string
 }

@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { BiChevronRight } from 'react-icons/bi';
 
-function DropDownSection({ title, onClick, children }) {
+type Props = {
+  title: string
+  onClick: () => void
+}
+
+const DropDownSection: FC<Props> = ({ title, onClick }) => {
   const [showChildren, setShowChildren] = useState(false);
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <button
         style={{
           border: '1px solid #ccc',
@@ -41,9 +46,8 @@ function DropDownSection({ title, onClick, children }) {
           {' '}
         </button>
       </button>
-      {children}
     </div>
   );
-}
+};
 
 export default DropDownSection;

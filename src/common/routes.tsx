@@ -7,37 +7,37 @@ const menues = [
   {
     id: 'a1',
     pageName: 'Home',
-    icon: <AiOutlineHome />,
+    icon: <AiOutlineHome size={24} />,
     path: '/',
   },
   {
     id: 'a2',
     pageName: 'Management',
-    icon: <TbReportSearch />,
+    icon: <TbReportSearch size={24} />,
     path: '/management',
   },
   {
     id: 'a3',
     pageName: 'Boards',
-    icon: <HiOutlineViewBoards />,
+    icon: <HiOutlineViewBoards size={24} />,
     path: '/boards',
   },
   {
     id: 'a4',
     pageName: 'Backlogs',
-    icon: <BsListTask />,
+    icon: <BsListTask size={24} />,
     path: '/backlogs',
   },
   {
     id: 'a5',
     pageName: 'Documentation',
-    icon: <HiOutlineDocumentText />,
+    icon: <HiOutlineDocumentText size={24} />,
     path: '/documentation',
   },
   {
     id: 'a6',
     pageName: 'Settings',
-    icon: <AiOutlineSetting />,
+    icon: <AiOutlineSetting size={24} />,
     path: '/settings',
   },
 ];

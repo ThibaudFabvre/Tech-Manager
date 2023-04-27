@@ -6,6 +6,7 @@ import {
   Card, CardProps, Column, Board,
 } from '../skyrave-core/components';
 import useTeamsStore from '../skyrave-core/stores/teams/teams';
+import { styles } from './boards.page.styles';
 
 const cards: CardProps[] = [
   { id: uuidv4(), text: 'HI', status: 'To Do' },
@@ -35,26 +36,19 @@ function Boards() {
   ];
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={styles.boardContainer}>
       {boards.map((board) => {
         return (
           <Board name={board.name}>
-            <ul
-              style={{
-                marginTop: 16,
-                display: 'flex',
-                justifyContent: 'space-around',
-                width: '100%',
-              }}
-            >
+            <ul style={styles.list}>
               {' '}
-              {columns.map((column) => {
+              {columns.map((column, index) => {
                 return (
-                  <li>
+                  <li key={index}>
                     <Column key={uuidv4()} id={uuidv4()} name={column.name}>
                       {cards.map((card) => {
                         return (
-                          <Card key={card.id} {...card} color="red">
+                          <Card key={index} {...card} color="red">
                             <BsBug size={18} color="#fff" />
                           </Card>
                         );
