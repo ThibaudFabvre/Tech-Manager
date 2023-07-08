@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './ProgressBar.styles';
 
 type MileStone = { size: number; percentageDone: number }
@@ -50,10 +49,10 @@ const ProgressBar: FC<ProgressBarProps> = ({
     <div>
       <div style={{ ...styles.progressBarContainer }}>
         {milestones ? (
-          milestones?.map((milestone) => {
+          milestones?.map((milestone, index) => {
             return (
               <div
-                key={uuidv4()}
+                key={index}
                 style={{
                   flex: milestone.size,
                   height: 18,

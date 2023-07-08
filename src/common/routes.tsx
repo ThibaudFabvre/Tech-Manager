@@ -1,7 +1,7 @@
 import { AiOutlineHome, AiOutlineSetting } from 'react-icons/ai';
 import { TbReportSearch } from 'react-icons/tb';
 import { HiOutlineViewBoards, HiOutlineDocumentText } from 'react-icons/hi';
-import { BsListTask } from 'react-icons/bs';
+import { BsListTask, BsTools } from 'react-icons/bs';
 
 const menues = [
   {
@@ -34,8 +34,14 @@ const menues = [
     icon: <HiOutlineDocumentText size={24} />,
     path: '/documentation',
   },
-  {
+    {
     id: 'a6',
+    pageName: 'Utilities',
+    icon: <BsTools size={24}/>,
+    path: '/utilities',
+  },
+  {
+    id: 'a7',
     pageName: 'Settings',
     icon: <AiOutlineSetting size={24} />,
     path: '/settings',

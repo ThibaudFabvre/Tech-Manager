@@ -60,9 +60,10 @@ function ManageTaskTypes() {
         Add a new action
       </button>
       <ul style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-        {actionsList.map((action: any) => {
+        {actionsList.map((action: any, index : number) => {
           return (
             <div
+              key={index}
               style={{
                 backgroundColor: '#efefef',
                 borderRadius: 5,

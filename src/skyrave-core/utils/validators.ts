@@ -1,4 +1,4 @@
-const validHtmlTags = [
+export const validHtmlTags = [
   'a',
   'abbr',
   'address',

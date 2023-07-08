@@ -1,51 +1,32 @@
-import { FC, useState } from 'react';
+import { FC, ReactElement, createRef, useState } from 'react';
 import { BiChevronRight } from 'react-icons/bi';
+import { styles } from './DropDownSection.styles';
 
 type Props = {
-  title: string
-  onClick: () => void
+  key?: any
+  title: React.ReactNode | string
+  onClick?: () => void
+  onHoverDisplay?: React.ReactNode
 }
 
-const DropDownSection: FC<Props> = ({ title, onClick }) => {
-  const [showChildren, setShowChildren] = useState(false);
+const DropDownSection: FC<Props> = ({ key, title, onClick, onHoverDisplay }) => {
+  const [ showOptions, setShowOptions ] = useState(false);
+
   return (
-    <div style={{ width: '100%' }}>
+    <div key={key} style={{ width: '100%' }} onMouseEnter={() => { setShowOptions(true) } } onMouseLeave={() => setShowOptions(false)} onClick={onClick}>
       <button
-        style={{
-          border: '1px solid #ccc',
-          borderRadius: 5,
-          marginTop: 8,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: '#fff',
-          width: '100%',
-          paddingTop: 8,
-          paddingBottom: 8,
-          paddingLeft: 16,
-          paddingRight: 16,
-          cursor: 'pointer',
-        }}
+        style={styles.wrapper}
         onClick={onClick}
       >
         {title}
         <button
-          style={{
-            height: 32,
-            width: 32,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#fff',
-            border: '1px solid #ccc',
-            borderRadius: '50%',
-            cursor: 'pointer',
-          }}
+          style={styles.icon}
         >
           <BiChevronRight />
           {' '}
         </button>
       </button>
+      {showOptions && <>{onHoverDisplay}</>}
     </div>
   );
 };

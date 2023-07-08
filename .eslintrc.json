@@ -11,12 +11,13 @@
         }
     },
     "rules": {
-        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-        "import/no-extraneous-dependencies": [
-            2,
-            { "devDependencies": ["**/test.tsx", "**/test.ts"] }
-        ],
+        "import/prefer-default-export": "off",
+        "react/jsx-filename-extension": [4, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "arrow-body-style": ["error", "always"],
-        "@typescript-eslint/indent": [2, 2]
+        "@typescript-eslint/indent": [4, 4],
+        "import/no-extraneous-dependencies": [
+            "error",
+            { "devDependencies": false, "optionalDependencies": false, "peerDependencies": false }
+        ]
     }
 }

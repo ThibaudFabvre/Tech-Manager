@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './ColorPicker.styles';
 
 type Color = Array<string>
@@ -51,24 +50,32 @@ const ColorPicker: FC<Props> = ({
   ],
   displayType = 'circular',
   onColorSelect,
-}) => (
-  <div style={{
-    display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 5,
-  }}
-  >
-    {colors.map((color) => (
-      <button
-        key={uuidv4()}
-        onClick={() => onColorSelect(color)}
-        style={{
-          backgroundColor: color,
-          border: `1px solid ${color !== '#FFFFFF' ? color : '#cccccc'}`,
-          cursor: 'pointer',
-          ...styles[displayType],
-        }}
-      />
-    ))}
-  </div>
-);
+}) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: 5,
+      }}
+    >
+      {colors.map((color, index) => {
+        return (
+          <button
+            key={index}
+            onClick={() => { return onColorSelect(color); }}
+            style={{
+              backgroundColor: color,
+              border: `1px solid ${color !== '#FFFFFF' ? color : '#cccccc'}`,
+              cursor: 'pointer',
+              ...styles[displayType],
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 export default ColorPicker;

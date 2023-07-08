@@ -1,4 +1,4 @@
 export const sendMail = async () => {
-  try {
-  } catch (e) {}
-};
+    try {
+    } catch (e) {}
+}

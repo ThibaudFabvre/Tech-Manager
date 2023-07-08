@@ -1,10 +1,12 @@
+import { DESIGN_SYSTEM } from 'src/common/designSystem'
+
 export const styles = {
     progressBarContainer: {
         height: 20,
-        border: '1px solid grey',
+        border: DESIGN_SYSTEM.border,
         borderRadius: 25,
         display: 'flex',
         overflow: 'hidden',
-        width: 200
-    }
+        width: 200,
+    },
 }

@@ -15,99 +15,51 @@ import { getColorFromGradient, gradientArray } from '../../skyrave-core/utils/co
 import { arrayToString } from '../../skyrave-core/utils/typeConverters';
 import DropDownSection from '../../skyrave-core/components/organisms/DropDownSection/DropDownSection';
 
-const ticketSections = [
-  { name: 'Title', optionsSection: <></> },
-  { name: 'Status' },
-  { name: 'Assignee', optionsSection: <></> },
-  { name: 'Priority', optionsSection: <></> },
-  { name: 'Steps' },
-  { name: 'Once task is started' },
-  { name: 'Once task is completed' },
-  { name: 'Once task is blocked' },
+
+const styles = {
+  wrapper: {
+    border: '1px solid #ccc',
+    borderRadius: 5,
+    marginTop: 8,
+    backgroundColor: '#fff',
+    width: '100%',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+  }
+}
+
+  const ticketSections = [
+  { name: 'Title', type: 'text', display: ({ name, type } : { name: string , type: string }) => <div style={styles.wrapper}><span>{name}</span> (<span>{type}</span>)</div> },
+  { name: 'Status', type: 'option picker', display: ({ name, type } : { name: string , type: string }) => <div style={styles.wrapper}><span>{name}</span> (<span>{type}</span>)</div>},
+  { name: 'Assignee', type: 'option picker', display: ({ name, type } : { name: string , type: string }) => <div style={styles.wrapper}><span>{name}</span> (<span>{type}</span>)</div> },
+  { name: 'Priority', type: 'option picker', display: ({ name, type } : { name: string , type: string }) => <div style={styles.wrapper}><span>{name}</span> (<span>{type}</span>)</div> },
+  { name: 'Steps', type: 'informative element', display: ({ name, type } : { name: string , type: string }) => <DropDownSection title={<h3>{name} (<span>{type}</span>)</h3>} /> },
+  { name: 'Once task is started', type: 'automation', display: ({ name, type } : { name: string , type: string }) => <DropDownSection title={<h3>{name} (<span>{type}</span>)</h3>} /> },
+  { name: 'Once task is completed', type: 'automation', display: ({ name, type } : { name: string , type: string }) => <DropDownSection title={<h3>{name} (<span>{type}</span>)</h3>}  />  },
+  { name: 'Once task is blocked', type: 'automation', display: ({ name, type } : { name: string , type: string }) => <DropDownSection title={<h3>{name} (<span>{type}</span>)</h3>}  /> },
 ];
 
 function ManageTaskTypes() {
-  const setSelectedMenus = useMenusStore((state) => {
-    return state.setSelectedMenus;
-  });
-  const setIsMenuOpen = useMenusStore((state) => {
-    return state.setIsMenuOpen;
-  });
 
   const [selectedIconColor, setSelectedIconColor] = useState('#fff');
   const [selectedIcon, setSelectedIcon] = useState(() => {
     return <BsBug size={18} />;
   });
+
   const [ticketColor, setTicketColor] = useState('#ccc');
   const [ticketName, setTicketName] = useState('');
 
-  const changeMenu = (target: string) => {
-    setIsMenuOpen(true);
-    if (target === 'icon') {
-      setSelectedMenus([
-        <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
-          Select the icon color
-        </h5>,
-        <Input
-          type="text"
-          placeholder="Color Code"
-          value={selectedIconColor}
-          onChange={setSelectedIconColor}
-        />,
-        <ColorPicker onColorSelect={setSelectedIconColor} />,
-        <CursoredBar
-          value={selectedIconColor}
-          onChange={(data: any) => {
-            const hex = getColorFromGradient(gradientArray, data.percentage);
-            if (hex) {
-              setSelectedIconColor(hex);
-            }
-          }}
-          spectre={`linear-gradient(to right, ${arrayToString(gradientArray)})`}
-          gradient={arrayToString(gradientArray)}
-        />,
-        <IconPicker
-          onIconPick={(icon: any) => {
-            setSelectedIcon(cloneElement(icon, { size: 18 }));
-          }}
-        />,
-      ]);
-    } else {
-      setSelectedMenus([
-        <h5 style={{ marginBottom: 18, marginTop: 24, fontSize: 18 }}>
-          Select the icon color
-        </h5>,
-        <Input
-          type="text"
-          placeholder="Color Code"
-          value={ticketColor}
-          onChange={setTicketColor}
-        />,
-        <ColorPicker onColorSelect={setTicketColor} />,
-        <CursoredBar
-          value={ticketColor}
-          onChange={(data: any) => {
-            const hex = getColorFromGradient(gradientArray, data.percentage);
-            if (hex) {
-              setTicketColor(hex);
-            }
-          }}
-          spectre={`linear-gradient(to right, ${arrayToString(gradientArray)})`}
-          gradient={arrayToString(gradientArray)}
-        />,
-      ]);
-    }
-  };
 
   return (
     <div
       style={{
         display: 'flex',
-        justifyContent: 'center',
       }}
     >
-      <div style={{ width: 600 }}>
-        <div style={{ marginTop: 100 }}>
+      <div style={{ display: 'flex', marginTop: 100, width: '100%' , justifyContent: 'space-around' }}>
+        <div>
           <h5>Preview</h5>
           <div>
             <Card
@@ -212,7 +164,7 @@ function ManageTaskTypes() {
                   }}
                 >
                   <div>
-                    <span>Progress :</span>
+                    <span>Progress</span>
                     <div style={{ marginTop: 8 }}>
                       <ProgressBar value={10} maxValue={10} />
                     </div>
@@ -258,30 +210,70 @@ function ManageTaskTypes() {
             />
             <DropDownSection
               title="Ticket color"
-              onClick={() => {
-                changeMenu('ticket');
-              }}
+              onHoverDisplay={
+                <div style={{ position: 'relative', width: 0, height: 0,  zIndex: 10, borderRadius: 5, left: '50%' }}>
+                  <div style={{width: 240, border: '1px solid grey', padding: 10, borderRadius: 5, backgroundColor: '#fff', }}>
+                    <Input
+                      type="text"
+                      placeholder="Color Code"
+                      value={ticketColor}
+                      onChange={setTicketColor}
+                    />
+                    <ColorPicker onColorSelect={setTicketColor} />,
+                    <CursoredBar
+                      value={ticketColor}
+                      onChange={(data: any) => {
+                        const hex = getColorFromGradient(gradientArray, data.percentage);
+                        if (hex) {
+                          setTicketColor(hex);
+                        }
+                      }}
+                      spectre={`linear-gradient(to right, ${arrayToString(gradientArray)})`}
+                      gradient={arrayToString(gradientArray)}
+                    />
+                  </div>
+                </div>
+              }
             />
             <DropDownSection
               title="Icon settings"
-              onClick={() => {
-                changeMenu('icon');
-              }}
+              onHoverDisplay={
+                <div style={{ position: 'relative', width: 0, height: 0,  zIndex: 10, borderRadius: 5, left: '50%' }}>
+                  <div style={{width: 240, border: '1px solid grey', padding: 10, borderRadius: 5, backgroundColor: '#fff', }}>
+                    <Input
+                      type="text"
+                      placeholder="Color Code"
+                      value={selectedIconColor}
+                      onChange={setSelectedIconColor}
+                    />
+                    <ColorPicker onColorSelect={setSelectedIconColor} />
+                    <CursoredBar
+                      value={selectedIconColor}
+                      onChange={(data: any) => {
+                        const hex = getColorFromGradient(gradientArray, data.percentage);
+                        if (hex) {
+                          setSelectedIconColor(hex);
+                        }
+                      }}
+                      spectre={`linear-gradient(to right, ${arrayToString(gradientArray)})`}
+                      gradient={arrayToString(gradientArray)}
+                    />
+                    <IconPicker
+                      onIconPick={(icon: any) => {
+                        setSelectedIcon(cloneElement(icon, { size: 18 }));
+                      }}
+                    />
+                  </div>
+                </div>
+              }
             />
           </div>
-        </div>
-        <div style={{ marginTop: 20 }}>
+                  <div style={{ marginTop: 20 }}>
           <h5>Fields</h5>
-          {ticketSections.map((ticketSection) => {
-            return (
-              <DropDownSection
-                title={ticketSection.name}
-                onClick={() => {
-                  return null;
-                }}
-              />
-            );
+          {ticketSections.map((ticketSection, index) => {
+            return ticketSection.display({ name: ticketSection.name, type: ticketSection.type })
           })}
+        </div>
         </div>
       </div>
     </div>

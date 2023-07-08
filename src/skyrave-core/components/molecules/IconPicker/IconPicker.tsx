@@ -41,10 +41,11 @@ const IconPicker: FC<Props> = ({
 }) => {
   return (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-      {icons.map((icon) => {
+      {icons.map((icon, index) => {
         return (
           <>
             {cloneElement(icon, {
+              key: index,
               style: { cursor: 'pointer' },
               size: 24,
               onClick: () => {

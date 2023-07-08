@@ -57,11 +57,9 @@ const App: FC<{ Component: any; pageProps: any }> = ({ Component, pageProps }) =
           return <>{selectedMenu}</>;
         })}
       </aside>
-      <div style={styles.subAppContainer}>
         <div style={styles.bodyContainer}>
           <Component {...pageProps} />
         </div>
-      </div>
     </div>
   );
 };
